@@ -1,17 +1,38 @@
+import { Field } from 'react-final-form';
+
+import { QuestionTypeModel, QuestionTypeEnum } from '../Question/Question.model';
+
 type Props = {
   answer: string;
   question: string;
-  onClickHandler: (e: any) => void;
+  type: QuestionTypeModel;
 }
 
 const styles: React.CSSProperties = {
   marginBottom: '10px',
 };
 
-const Answers = ({ answer, question, onClickHandler }: Props) => {
+const Answers = ({ answer, question, type }: Props) => {
+  let inputType='';
+  switch(type) {
+    case QuestionTypeEnum.singleChoice:
+      inputType= 'radio';
+      break;
+    case QuestionTypeEnum.multipleChoice:
+      inputType= 'checkbox';
+      break;
+    default:
+      break;
+  };
+
   return (
     <label style={styles}>
-      <input type="radio" value={answer} name={question} onClick={onClickHandler} />
+      <Field
+        name={question}
+        component="input"
+        type={inputType}
+        value={answer}
+      />
       <span>{answer}</span>
     </label>
   );

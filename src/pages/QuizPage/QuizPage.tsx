@@ -1,34 +1,29 @@
 import { useState, useEffect } from 'react';
+
 import Form from "../../features/Form";
 import FormResult from '../../features/FormResult';
-import data from '../../mocks/questions.json';
+import data from '../../mocks/questions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setFormDataValues, getFormData } from '../../redux/formData.redux';
+
 import { checkResult } from './QuizPage.helpers';
 import { FormDataModel } from './QuizPage.model';
 
 const QuizPage = () => {
   const questions = data.results;
-  const [formData, setFormData] = useState<FormDataModel>();
   const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
   const [result, setResult] = useState<number>(); 
   const dispatch = useAppDispatch();
   const submittedForm = useAppSelector(getFormData);
 
-  const onClickHandler = (e: any) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  };
-
-  const onSubmit = (e:any) => {
-    e.preventDefault();
-    dispatch(setFormDataValues(formData));
+  const onSubmit = async (values: FormDataModel) => {
+    dispatch(setFormDataValues(values));
     setIsFormSubmitted(true);
   };
 
   const retakeQuizHandler = () => {
-    setFormData({});
-    dispatch(setFormDataValues(formData));
-    setIsFormSubmitted(false)
+    dispatch(setFormDataValues({}));
+    setIsFormSubmitted(false);
   }
 
   useEffect(() => {
@@ -44,7 +39,7 @@ const QuizPage = () => {
           <button onClick={retakeQuizHandler}>Return to the Quiz</button>
         </>
       ): (
-        <Form questions={questions} onSubmit={onSubmit} onClickHandler={onClickHandler} />
+        <Form questions={questions} onSubmit={onSubmit} />
       )}
     </>
   );

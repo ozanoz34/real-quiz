@@ -1,9 +1,9 @@
 import Answers from "../Answers";
+
 import { QuestionModel } from './Question.model';
 
 type Props = {
   questionDetails: QuestionModel;
-  onClickHandler: (e: any) => void;
 };
 
 const answerContainerStyles: React.CSSProperties = {
@@ -23,20 +23,19 @@ const styles = {
   questionContainerStyles,
 };
 
-const Question = ({questionDetails, onClickHandler}: Props) => {
-  const {id, question, options} = questionDetails;
-  const answers = options;
+const Question = ({ questionDetails }: Props) => {
+  const { id, question, options, type } = questionDetails;
 
   return (
     <div className="question-container" style={styles.questionContainerStyles}>
-      <p>{id}- {question}</p>
+      <label>{id}- {question}</label>
       <div className="answers-container" style={styles.answerContainerStyles}>
-        {answers.map(answer => 
+        {options.map(answer => 
           <Answers
             answer={answer}
             question={question}
-            onClickHandler={onClickHandler}
             key={`${question}-${answer}`}
+            type={type}
           />
         )}
       </div>
