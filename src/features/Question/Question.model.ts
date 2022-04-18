@@ -1,11 +1,19 @@
+enum QuestionTypeEnum {
+  singleChoice= 'singleChoice',
+  multipleChoice= 'multipleChoice'
+};
+
+type QuestionTypeModel = 'singleChoice' | 'multipleChoice';
+
 type QuestionModel = {
   id: number;
   category: string;
-  type: string;
+  type: QuestionTypeModel;
   difficulty: string;
   question: string;
-  correctAnswer: string;
+  correctAnswer: string | string[];
   options: string[];
 };
 
-export type { QuestionModel };
+export type { QuestionModel, QuestionTypeModel };
+export { QuestionTypeEnum };
